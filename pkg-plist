@@ -124,6 +124,9 @@ lib/collectd/ntpd.la
 lib/collectd/openvpn.a
 lib/collectd/openvpn.so
 lib/collectd/openvpn.la
+%%PERL%%lib/collectd/perl.a
+%%PERL%%lib/collectd/perl.so
+%%PERL%%lib/collectd/perl.la
 %%PING%%lib/collectd/ping.a
 %%PING%%lib/collectd/ping.so
 %%PING%%lib/collectd/ping.la
@@ -248,6 +251,9 @@ lib/libcollectdclient.so.1
 libdata/pkgconfig/libcollectdclient.pc
 %%DATADIR%%/postgresql_default.conf
 %%DATADIR%%/types.db
+%%SITE_PERL%%/Collectd.pm
+%%SITE_PERL%%/Collectd/Unixsock.pm
+%%SITE_PERL%%/%%PERL_ARCH%%/auto/Collectd/.packlist
 man/man1/collectd-nagios.1.gz
 man/man1/collectd-tg.1.gz
 man/man1/collectd.1.gz
@@ -266,6 +272,9 @@ man/man5/types.db.5.gz
 @dirrm lib/collectd
 @dirrm include/collectd
 @dirrm %%DATADIR%%
+@dirrmtry %%SITE_PERL%%/%%PERL_ARCH%%/auto/Collectd
+@dirrmtry %%SITE_PERL%%/Collectd/Plugins
+@dirrmtry %%SITE_PERL%%/Collectd
 @exec mkdir -p /var/db/collectd
 @cwd /
 @dirrmtry /var/db/collectd

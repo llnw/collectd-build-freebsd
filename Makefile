@@ -3,7 +3,7 @@
 
 PORTNAME=	collectd
 PORTVERSION=	5.4.1
-PORTREVISION=	1
+PORTREVISION=	2
 PKGNAMESUFFIX=	5
 CATEGORIES=	net-mgmt
 MASTER_SITES=	http://collectd.org/files/
@@ -22,7 +22,7 @@ OPTIONS_DEFINE=		CGI DEBUG GCRYPT VIRT
 OPTIONS_GROUP=		INPUT OUTPUT
 OPTIONS_GROUP_OUTPUT=	RRDTOOL NOTIFYEMAIL NOTIFYDESKTOP RIEMANN
 OPTIONS_GROUP_INPUT=	CURL DBI JSON MEMCACHEC MODBUS MONGODB MYSQL \
-			NUTUPS PGSQL PING PYTHON RABBITMQ REDIS \
+			NUTUPS PERL PGSQL PING PYTHON RABBITMQ REDIS \
 			ROUTEROS SIGROK SNMP STATGRAB TOKYOTYRANT XML XMMS
 
 CGI_DESC=		Install collection.cgi (requires rrdtool)
@@ -38,6 +38,7 @@ MYSQL_DESC=		Enable mysql-based plugins
 NOTIFYEMAIL_DESC=	Enable notifications via email
 NOTIFYDESKTOP_DESC=	Enable desktop notifications
 NUTUPS_DESC=		Enable nut (ups) plugin
+PERL_DESC=		Enable libperl plugin and binding
 PGSQL_DESC=		Enable postgresql-based plugins
 PING_DESC=		Enable ping plugin
 PYTHON_DESC=		Enable python-based plugins
@@ -82,13 +83,11 @@ CONFIGURE_ARGS=	--localstatedir=/var \
 		--without-libopenipmi \
 		--without-libowcapi \
 		--without-libperfstat \
-		--without-libperl \
 		--without-libsensors \
 		--without-libvarnish \
 		--without-lvm \
 		--without-mic \
-		--without-oracle \
-		--without-perl-bindings
+		--without-oracle
 
 # NOTE: Plugins without external dependencies
 CONFIGURE_ARGS+=	\
@@ -284,6 +283,15 @@ PLIST_SUB+=	NUTUPS=""
 .else
 CONFIGURE_ARGS+=--without-libupsclient --disable-nut
 PLIST_SUB+=	NUTUPS="@comment "
+.endif
+
+.if ${PORT_OPTIONS:MPERL}
+USES+=		perl5
+CONFIGURE_ARGS+=--with-perl=${PERL} --with-perl-bindings --enable-perl
+PLIST_SUB+=	PERL=""
+.else
+CONFIGURE_ARGS+=--without-perl --without-perl-bindings --disable-perl
+PLIST_SUB+=	PERL="@comment "
 .endif
 
 .if ${PORT_OPTIONS:MPGSQL}
