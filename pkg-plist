@@ -109,6 +109,9 @@ lib/collectd/memory.la
 %%MYSQL%%lib/collectd/mysql.a
 %%MYSQL%%lib/collectd/mysql.so
 %%MYSQL%%lib/collectd/mysql.la
+lib/collectd/netstat.a
+lib/collectd/netstat.so
+lib/collectd/netstat.la
 lib/collectd/network.a
 lib/collectd/network.so
 lib/collectd/network.la
@@ -238,6 +241,9 @@ lib/collectd/write_graphite.la
 %%RIEMANN%%lib/collectd/write_riemann.a
 %%RIEMANN%%lib/collectd/write_riemann.so
 %%RIEMANN%%lib/collectd/write_riemann.la
+lib/collectd/write_tsdb.a
+lib/collectd/write_tsdb.so
+lib/collectd/write_tsdb.la
 %%XMMS%%lib/collectd/xmms.a
 %%XMMS%%lib/collectd/xmms.so
 %%XMMS%%lib/collectd/xmms.la

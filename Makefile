@@ -1,22 +1,28 @@
 # Created by: Matt Peterson <matt@peterson.org>
 # $FreeBSD$
 
-PORTNAME=	collectd
-PORTVERSION=	5.4.1
-PORTREVISION=	2
-PKGNAMESUFFIX=	5
-CATEGORIES=	net-mgmt
-MASTER_SITES=	http://collectd.org/files/
+PORTNAME=		collectd
+PORTVERSION=		5.4.1
+PORTREVISION=		2
+PKGNAMESUFFIX=		5
+CATEGORIES=		net-mgmt
+MASTER_SITES=		https://github.com/llnw/collectd/releases/download/${GITHUBDISTDIR}/
+DISTVERSIONSUFFIX=	llnw2
+DISTNAME=		${PORTNAME}-${DISTVERSION}.${DISTVERSIONSUFFIX}
+GITHUBDISTDIR=		${PORTNAME}-${DISTVERSION}-${DISTVERSIONSUFFIX}
 
-MAINTAINER=	ports@bsdserwis.com
+MAINTAINER=	kbowling@llnw.com
 COMMENT=	Systems & network statistics collection daemon
 
-USES=		gmake pkgconfig tar:bzip2
+USES=		gmake pkgconfig
 GNU_CONFIGURE=	yes
 USE_AUTOTOOLS=	aclocal autoconf autoheader automake libltdl libtool
 
 # Only autoconf stage and sigrok plugin need GLIB:
 BUILD_DEPENDS+=	${LOCALBASE}/libdata/pkgconfig/glib-2.0.pc:${PORTSDIR}/devel/glib20
+
+# LLNW default options
+OPTIONS_DEFAULT=	CURL JSON PERL SNMP STATGRAB XML
 
 OPTIONS_DEFINE=		CGI DEBUG GCRYPT VIRT
 OPTIONS_GROUP=		INPUT OUTPUT
@@ -88,6 +94,12 @@ CONFIGURE_ARGS=	--localstatedir=/var \
 		--without-lvm \
 		--without-mic \
 		--without-oracle
+
+# LLNW plugins
+CONFIGURE_ARGS+=	\
+		--enable-netstat \
+		--enable-write_tsdb \
+		--enable-ipv6
 
 # NOTE: Plugins without external dependencies
 CONFIGURE_ARGS+=	\
