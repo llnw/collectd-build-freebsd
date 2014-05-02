@@ -300,10 +300,10 @@ PLIST_SUB+=	NUTUPS="@comment "
 .if ${PORT_OPTIONS:MPERL}
 USES+=		perl5
 CONFIGURE_ARGS+=--with-perl=${PERL} --with-perl-bindings --enable-perl
-PLIST_SUB+=	WITH_PERL=""
+PLIST_SUB+=	PERL=""
 .else
 CONFIGURE_ARGS+=--without-perl --without-perl-bindings --disable-perl
-PLIST_SUB+=	WITH_PERL="@comment "
+PLIST_SUB+=	PERL="@comment "
 .endif
 
 .if ${PORT_OPTIONS:MPGSQL}
