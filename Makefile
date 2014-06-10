@@ -3,20 +3,23 @@
 
 PORTNAME=		collectd
 PORTVERSION=		5.4.1
-PORTREVISION=		3
-PKGNAMESUFFIX=		5
+PORTREVISION=		4
 CATEGORIES=		net-mgmt
 MASTER_SITES=		https://github.com/llnw/collectd/releases/download/${GITHUBDISTDIR}/
-DISTVERSIONSUFFIX=	llnw2
+PKGNAMESUFFIX=		5
+DISTVERSIONSUFFIX=	llnw5
 DISTNAME=		${PORTNAME}-${DISTVERSION}.${DISTVERSIONSUFFIX}
 GITHUBDISTDIR=		${PORTNAME}-${DISTVERSION}-${DISTVERSIONSUFFIX}
 
 MAINTAINER=	kbowling@llnw.com
 COMMENT=	Systems & network statistics collection daemon
 
-USES=		gmake pkgconfig
+LICENSE=	GPLv2
+LICENSE_FILE=	${WRKSRC}/COPYING
+
+USES=		gmake pkgconfig libtool
 GNU_CONFIGURE=	yes
-USE_AUTOTOOLS=	aclocal autoconf autoheader automake libltdl libtool
+USE_AUTOTOOLS=	aclocal autoconf autoheader automake libltdl libtoolize
 
 # Only autoconf stage and sigrok plugin need GLIB:
 BUILD_DEPENDS+=	${LOCALBASE}/libdata/pkgconfig/glib-2.0.pc:${PORTSDIR}/devel/glib20
@@ -69,6 +72,8 @@ CONFLICTS=	collectd-4.[0-9]*
 
 CPPFLAGS+=	-I${LOCALBASE}/include
 LDFLAGS+=	-L${LOCALBASE}/lib
+
+PLIST_SUB+=	RESETPREFIX=${PREFIX}
 
 .include <bsd.port.options.mk>
 
@@ -391,7 +396,7 @@ PLIST_SUB+=	RRDTOOL="@comment "
 .if ${PORT_OPTIONS:MSTATGRAB}
 USES+=		pkgconfig
 LIB_DEPENDS+=	libstatgrab.so:${PORTSDIR}/devel/libstatgrab
-CONFIGURE_ENV+= LIBS="`pkg-config --libs libstatgrab`"
+CONFIGURE_ENV+=	LIBS="`pkg-config --libs libstatgrab`"
 CONFIGURE_ARGS+=--with-libstatgrab=${LOCALBASE} \
 		--enable-disk \
 		--enable-interface
@@ -403,22 +408,22 @@ PLIST_SUB+=	STATGRAB="@comment "
 
 .if ${OSVERSION} >= 900007
 CONFIGURE_ARGS+=--enable-users
-PLIST_SUB+= USERS=""
+PLIST_SUB+=	USERS=""
 .elif ${PORT_OPTIONS:MSTATGRAB}
 CONFIGURE_ARGS+=--enable-users
-PLIST_SUB+= USERS=""
+PLIST_SUB+=	USERS=""
 .else
-PLIST_SUB+= USERS="@comment "
+PLIST_SUB+=	USERS="@comment "
 .endif
 
 .if ${PORT_OPTIONS:MSIGROK}
 USE_GNOME+=	glib20
 LIB_DEPENDS+=	libsigrok.so:${PORTSDIR}/devel/libsigrok
 CONFIGURE_ARGS+=--with-libsigrok --enable-sigrok
-PLIST_SUB+=     SIGROK=""
+PLIST_SUB+=	SIGROK=""
 .else
 CONFIGURE_ARGS+=--disable-sigrok
-PLIST_SUB+=     SIGROK="@comment "
+PLIST_SUB+=	SIGROK="@comment "
 .endif
 
 .if ${PORT_OPTIONS:MSNMP}
@@ -493,6 +498,11 @@ post-install:
 	${INSTALL_SCRIPT} ${WRKSRC}/contrib/collection.cgi ${STAGEDIR}${WWWDIR}/
 	${INSTALL_DATA} ${WRKSRC}/contrib/collection.conf \
 		${STAGEDIR}${WWWDIR}/collection.conf.sample
+.endif
+
+post-stage:
+.if ${PORT_OPTIONS:MPERL}
+	@${SED} -i '' -e 's,${STAGEDIR},,g' ${STAGEDIR}${SITE_PERL}/${PERL_ARCH}/auto/Collectd/.packlist
 .endif
 
 .include <bsd.port.mk>
