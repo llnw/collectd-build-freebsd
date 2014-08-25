@@ -15,4 +15,4 @@
 -VERSION="`echo \"$VERSION\" | sed -e 's/-/./g'`"
 -
 -echo -n "$VERSION"
-+echo -n "5.4.1.llnw5"
++echo -n "5.4.1.llnw6"

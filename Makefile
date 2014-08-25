@@ -3,7 +3,7 @@
 
 PORTNAME=		collectd
 PORTVERSION=		5.4.1
-PORTREVISION=		5
+PORTREVISION=		10
 CATEGORIES=		net-mgmt
 MASTER_SITES=		https://github.com/llnw/collectd/releases/download/${GITHUBDISTDIR}/
 PKGNAMESUFFIX=		5
@@ -71,9 +71,7 @@ USE_LDCONFIG=	yes
 CONFLICTS=	collectd-4.[0-9]*
 
 CPPFLAGS+=	-I${LOCALBASE}/include
-LDFLAGS+=	-L${LOCALBASE}/lib
-
-PLIST_SUB+=	RESETPREFIX=${PREFIX}
+LIBS+=		-L${LOCALBASE}/lib
 
 .include <bsd.port.options.mk>
 
@@ -224,7 +222,7 @@ PLIST_SUB+=	DBI="@comment "
 .if ${PORT_OPTIONS:MGCRYPT}
 LIB_DEPENDS+=	libgcrypt.so:${PORTSDIR}/security/libgcrypt
 CONFIGURE_ARGS+=--with-libgcrypt=${LOCALBASE}
-LDFLAGS+=	-lgcrypt
+LIBS+=		-lgcrypt
 .else
 CONFIGURE_ARGS+=--without-libgcrypt
 .endif
@@ -396,7 +394,7 @@ PLIST_SUB+=	RRDTOOL="@comment "
 .if ${PORT_OPTIONS:MSTATGRAB}
 USES+=		pkgconfig
 LIB_DEPENDS+=	libstatgrab.so:${PORTSDIR}/devel/libstatgrab
-CONFIGURE_ENV+=	LIBS="`pkg-config --libs libstatgrab`"
+LIBS+=		`pkg-config --libs libstatgrab`
 CONFIGURE_ARGS+=--with-libstatgrab=${LOCALBASE} \
 		--enable-disk \
 		--enable-interface
