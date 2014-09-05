@@ -3,7 +3,7 @@
 
 PORTNAME=		collectd
 PORTVERSION=		5.4.1
-PORTREVISION=		10
+PORTREVISION=		12
 CATEGORIES=		net-mgmt
 MASTER_SITES=		https://github.com/llnw/collectd/releases/download/${GITHUBDISTDIR}/
 PKGNAMESUFFIX=		5
