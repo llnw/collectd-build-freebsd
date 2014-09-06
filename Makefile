@@ -1,21 +1,21 @@
 # Created by: Matt Peterson <matt@peterson.org>
 # $FreeBSD$
 
-PORTNAME=		collectd
-PORTVERSION=		5.4.1
-PORTREVISION=		12
-CATEGORIES=		net-mgmt
-MASTER_SITES=		https://github.com/llnw/collectd/releases/download/${GITHUBDISTDIR}/
-PKGNAMESUFFIX=		5
-DISTVERSIONSUFFIX=	llnw6
-DISTNAME=		${PORTNAME}-${DISTVERSION}.${DISTVERSIONSUFFIX}
-GITHUBDISTDIR=		${PORTNAME}-${DISTVERSION}-${DISTVERSIONSUFFIX}
+PORTNAME=	collectd
+DISTVERSION=	${BASEVERSION}.llnw${LLNWPATCH}
+PORTREVISION=	12
+CATEGORIES=	net-mgmt
+MASTER_SITES=	https://github.com/llnw/collectd/releases/download/${PORTNAME}-${BASEVERSION}-llnw${LLNWPATCH}/
+PKGNAMESUFFIX=	-llnw
 
 MAINTAINER=	kbowling@llnw.com
 COMMENT=	Systems & network statistics collection daemon
 
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/COPYING
+
+BASEVERSION=	5.4.1
+LLNWPATCH=	6
 
 USES=		gmake pkgconfig libtool
 GNU_CONFIGURE=	yes
@@ -68,7 +68,7 @@ USE_RC_SUBR=	collectd collectdmon
 
 USE_LDCONFIG=	yes
 
-CONFLICTS=	collectd-4.[0-9]*
+CONFLICTS=	collectd-4.[0-9]* collectd5-[0-9]*
 
 CPPFLAGS+=	-I${LOCALBASE}/include
 LIBS+=		-L${LOCALBASE}/lib
