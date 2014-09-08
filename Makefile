@@ -2,10 +2,10 @@
 # $FreeBSD$
 
 PORTNAME=	collectd
-DISTVERSION=	${BASEVERSION}.llnw${LLNWPATCH}
+DISTVERSION=	${BASEVERSION}.${LLNWPATCH}
 PORTREVISION=	12
 CATEGORIES=	net-mgmt
-MASTER_SITES=	https://github.com/llnw/collectd/releases/download/${PORTNAME}-${BASEVERSION}-llnw${LLNWPATCH}/
+MASTER_SITES=	https://github.com/llnw/collectd/releases/download/${PORTNAME}-${BASEVERSION}-${LLNWPATCH}/
 PKGNAMESUFFIX=	-llnw
 
 MAINTAINER=	kbowling@llnw.com
@@ -15,7 +15,7 @@ LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/COPYING
 
 BASEVERSION=	5.4.1
-LLNWPATCH=	6
+LLNWPATCH=	llnw6
 
 USES=		gmake pkgconfig libtool
 GNU_CONFIGURE=	yes
