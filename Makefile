@@ -66,6 +66,8 @@ XMMS_DESC=		Enable xmms plugin
 
 USE_RC_SUBR=	collectd collectdmon
 
+PLIST_SUB+=	RESETPREFIX=${PREFIX}
+
 USE_LDCONFIG=	yes
 
 CONFLICTS=	collectd-4.[0-9]* collectd5-[0-9]*
